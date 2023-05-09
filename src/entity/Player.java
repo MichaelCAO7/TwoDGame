@@ -36,6 +36,7 @@ public class Player extends Entity{
 		
 		setDefaultValues();
 		getPlayerImage();
+		getPlayerAttackImage();
 		
 		
 	}
@@ -48,7 +49,7 @@ public class Player extends Entity{
 	}
 	
 	public void getPlayerImage() {
-		
+
 		up1 = setup("/player/boy_up_1",gp.tileSize,gp.tileSize);
 		up2 = setup("/player/boy_up_2",gp.tileSize,gp.tileSize);
 		down1 = setup("/player/boy_down_1",gp.tileSize,gp.tileSize);	
@@ -59,7 +60,7 @@ public class Player extends Entity{
 		right2 = setup("/player/boy_right_2",gp.tileSize,gp.tileSize);	
 	}
 	public void getPlayerAttackImage() {
-			
+		
 			attackUp1 = setup("/player/boy_attack_up_1",gp.tileSize,gp.tileSize*2);
 			attackUp2 = setup("/player/boy_attack_up_2",gp.tileSize,gp.tileSize*2);
 			attackDown1 = setup("/player/boy_attack_down_1",gp.tileSize,gp.tileSize*2);
@@ -73,6 +74,7 @@ public class Player extends Entity{
 	public void update() {
 		
 		if(attacking == true) {
+			System.out.println("YOU ARE ATTACKING");
 			attacking();
 		}
 		
@@ -202,8 +204,8 @@ public class Player extends Entity{
 		
 		BufferedImage image = null;
 		//
-		System.out.println("attacking:" + attacking);
-		System.out.println("direction:" + direction);
+		System.out.println("xxxxxxxxxxxattacking:" + attacking);
+		System.out.println("xxxxxxxxxxdirection:" + direction);
 
 		switch(direction) {
 			case "up":
