@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import entity.Player;
 import object.SuperObject;
 import tile.TileManager;
+import entity.Entity;
 
 public class GamePanel extends JPanel implements Runnable{
 	
@@ -45,9 +46,9 @@ public class GamePanel extends JPanel implements Runnable{
 	public UI ui = new UI(this);
 	
 	Thread gameThread;
-	
 	public Player player = new Player(this, keyH);
 	public SuperObject obj[] = new SuperObject[10];
+	public Entity monster[] = new Entity[10];
 	
 	//Set players default position
 	int playerX = 100;
@@ -74,6 +75,7 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	public void setupGame() {
 		
+		aSetter.setMonster();
 		aSetter.setObject();
 		playMusic(0);
 		stopMusic();
@@ -103,7 +105,15 @@ public class GamePanel extends JPanel implements Runnable{
 
 			// 1. UPDATE:	Update information such as character position
 			if(gameState == playState) {
-				update();
+//				update();
+				//PLAYER
+				player.update();
+				//MONSTER
+				for(int i = 0; i < monster.length; i++) {
+					if(monster[i] != null) {
+						monster[i].update();
+					}
+				}
 			}
 			
 			// 2. DRAW:		Draw the screen with the updated information
@@ -132,25 +142,25 @@ public class GamePanel extends JPanel implements Runnable{
 			
 	}
 	
-	public void update() {
-		
-/*		if(keyH.upPressed == true) {
-			playerY -= playerSpeed;
-		}
-		else if(keyH.downPressed == true) {
-			playerY += playerSpeed;
-		}
-		else if(keyH.leftPressed == true) {
-			playerX -= playerSpeed;
-		}
-		else if(keyH.rightPressed == true) {
-			playerX += playerSpeed;
-		}	
-													Moved to Player Class
-*/													
-		player.update();
-		
-	}
+//	public void update() {
+//		
+///*		if(keyH.upPressed == true) {
+//			playerY -= playerSpeed;
+//		}
+//		else if(keyH.downPressed == true) {
+//			playerY += playerSpeed;
+//		}
+//		else if(keyH.leftPressed == true) {
+//			playerX -= playerSpeed;
+//		}
+//		else if(keyH.rightPressed == true) {
+//			playerX += playerSpeed;
+//		}	
+//													Moved to Player Class
+//*/													
+//		player.update();
+//		
+//	}
 
 	
 	
@@ -172,8 +182,12 @@ public class GamePanel extends JPanel implements Runnable{
 				obj[i].draw(g2, this);
 			}
 		}
-		
-		
+		//MONSTER
+		for(int i = 0; i < monster.length; i++) {
+			if(monster[i] != null) {
+				monster[i].draw(g2);
+			}
+		}
 		
 		//PLAYER
 		player.draw(g2);

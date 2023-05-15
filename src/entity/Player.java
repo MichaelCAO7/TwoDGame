@@ -37,6 +37,9 @@ public class Player extends Entity{
 		setDefaultValues();
 		getPlayerImage();
 		getPlayerAttackImage();
+		armorImage();
+		armorAttackImage();
+		
 		
 		
 	}
@@ -46,6 +49,9 @@ public class Player extends Entity{
 		worldY = gp.tileSize * 21;
 		speed = 4;
 		direction = "down";
+		
+		maxLife = 6;
+		life = maxLife;
 	}
 	
 	public void getPlayerImage() {
@@ -71,14 +77,38 @@ public class Player extends Entity{
 			attackRight2 = setup("/player/boy_attack_right_2",gp.tileSize*2,gp.tileSize);
 	}
 	
+	public void armorImage() {
+	
+			armorUp1 = setup("/player/armor_up_1",gp.tileSize,gp.tileSize);
+			armorUp2 = setup("/player/armor_up_2",gp.tileSize,gp.tileSize);
+			armorDown1 = setup("/player/armor_down_1",gp.tileSize,gp.tileSize);
+			armorDown2 = setup("/player/armor_down_2",gp.tileSize,gp.tileSize);
+			armorLeft1 = setup("/player/armor_left_1",gp.tileSize,gp.tileSize);
+			armorLeft2 = setup("/player/armor_left_2",gp.tileSize,gp.tileSize);
+			armorRight1 = setup("/player/armor_right_1",gp.tileSize,gp.tileSize);
+			armorRight2 = setup("/player/armor_right_2",gp.tileSize,gp.tileSize);
+			
+	}
+	
+	public void armorAttackImage() {
+	
+			armorAttackUp1 = setup("/player/armor_attack_up_1",gp.tileSize,gp.tileSize*2);
+			armorAttackUp2 = setup("/player/armor_attack_up_2",gp.tileSize,gp.tileSize*2);
+			armorAttackDown1 = setup("/player/armor_attack_down_1",gp.tileSize,gp.tileSize*2);
+			armorAttackDown2 = setup("/player/armor_attack_down_2",gp.tileSize,gp.tileSize*2);
+			armorAttackLeft1 = setup("/player/armor_attack_left_1",gp.tileSize*2,gp.tileSize);
+			armorAttackLeft2 = setup("/player/armor_attack_left_2",gp.tileSize*2,gp.tileSize);
+			armorAttackRight1 = setup("/player/armor_attack_right_1",gp.tileSize*2,gp.tileSize);
+			armorAttackRight2 = setup("/player/armor_attack_right_2",gp.tileSize*2,gp.tileSize);
+	}
+	
 	public void update() {
 		
 		if(attacking == true) {
-			System.out.println("YOU ARE ATTACKING");
 			attacking();
 		}
 		
-		else if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true || keyH.enterPressed == true) {
+		else if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true || keyH.enterPressed == true || keyH.armorPressed == true) {
 			
 			if(keyH.upPressed == true) {
 				direction = "up";
@@ -100,7 +130,9 @@ public class Player extends Entity{
 			else if (keyH.enterPressed == true) {
 				attacking = true;
 			}
-			
+			else if (keyH.armorPressed == true) {
+				armor = true;
+			}
 			//CHECK TILE COLLISION
 			collisionOn = false;
 			gp.cChecker.checkTile(this);
@@ -113,18 +145,10 @@ public class Player extends Entity{
 			// IF COLLISION IS FALSE, PLAYER CAN MOVE
 			if(collisionOn == false && keyH.enterPressed == false) {
 				switch(direction) {
-				case "up":
-					worldY -= speed;
-					break;
-				case "down":
-					worldY += speed;
-					break;
-				case "left":
-					worldX -= speed;
-					break;
-				case "right":
-					worldX += speed;
-					break;
+				case "up": worldY -= speed; break;
+				case "down": worldY += speed; break; 
+				case "left": worldX -= speed; break;
+				case "right": worldX += speed; break;
 				}	
 			}
 			
@@ -189,6 +213,13 @@ public class Player extends Entity{
 				gp.stopMusic();
 				gp.playSE(4);
 				break;
+			case "SpeedApple":
+				gp.playSE(2);
+				speed += 10;
+				gp.obj[i] = null;
+				gp.ui.showMessage("superSpeed!");
+				break;
+				
 			}
 			
 			
@@ -203,53 +234,78 @@ public class Player extends Entity{
 //		g2.fillRect(x, y, gp.tileSize, gp.tileSize);		Now we are going to use our sprite image
 		
 		BufferedImage image = null;
-		//
-		System.out.println("xxxxxxxxxxxattacking:" + attacking);
-		System.out.println("xxxxxxxxxxdirection:" + direction);
 
 		switch(direction) {
 			case "up":
-				if (attacking == false) {
+				if (attacking == false && armor == true ) {
+					if(spriteNum == 1) {image = armorUp1;}
+					if(spriteNum == 2) {image = armorUp2;}	
+				}
+				else if (attacking == false) {
 					if(spriteNum == 1) {image = up1;}
 					if(spriteNum == 2) {image = up2;}
 				}
-				if (attacking == true) {
-					if(spriteNum == 1) {
-						System.out.println("LAYERING PROBLEM");
-						image = attackUp1;
-					}
-					
+				else if (attacking == true) {
+					if(spriteNum == 1) {image = attackUp1;}
 					if(spriteNum == 2) {image = attackUp2;}
+				}
+				if (attacking == true && armor == true ) {
+					if(spriteNum == 1) {image = armorAttackUp1;}
+					if(spriteNum == 2) {image = armorAttackUp2;}	
 				}
 				break;	
 			case "down":
-				if (attacking == false) {
+				if (attacking == false && armor == true ) {
+					if(spriteNum == 1) {image = armorDown1;}
+					if(spriteNum == 2) {image = armorDown2;}	
+				}
+				else if (attacking == false) {
 					if(spriteNum == 1) {image = down1;}
 					if(spriteNum == 2) {image = down2;}
 				}
-				if (attacking == true) {
+				else if (attacking == true) {
 					if(spriteNum == 1) {image = attackDown1;}
 					if(spriteNum == 2) {image = attackDown2;}
 				}
+				if (attacking == true && armor == true) {
+					if(spriteNum == 1) {image = armorAttackDown1;}
+					if(spriteNum == 2) {image = armorAttackDown2;}
+				}
 				break;
 			case "left":
-				if (attacking == false) {
+				if (attacking == false && armor == true ) {
+					if(spriteNum == 1) {image = armorLeft1;}
+					if(spriteNum == 2) {image = armorLeft2;}	
+				}
+				else if (attacking == false) {
 					if(spriteNum == 1) {image = left1;}
 					if(spriteNum == 2) {image = left2;}
 				}
-				if (attacking == true) {
+				else if (attacking == true) {
 					if(spriteNum == 1) {image = attackLeft1;}
 					if(spriteNum == 2) {image = attackLeft2;}
 				}
+				if (attacking == true && armor == true ) {
+					if(spriteNum == 1) {image = armorAttackLeft1;}
+					if(spriteNum == 2) {image = armorAttackLeft2;}	
+				}
 				break;
 			case "right":
-				if (attacking == false) {
+				if (attacking == false && armor == true ) {
+					if(spriteNum == 1) {image = armorRight1;}
+					if(spriteNum == 2) {image = armorRight2;}	
+				}
+				else if (attacking == false) {
 					if(spriteNum == 1) {image = right1;}
 					if(spriteNum == 2) {image = right2;}
 				}
-				if (attacking == true) {
+				else if (attacking == true) {
 					if(spriteNum == 1) {image = attackRight1;}
 					if(spriteNum == 2) {image = attackRight2;}
+				}
+				if (attacking == true && armor == true ) {
+					if(spriteNum == 1) {image = armorAttackRight1;}
+					if(spriteNum == 2) {image = armorAttackRight2;}	
 				}
 				break;
 		}

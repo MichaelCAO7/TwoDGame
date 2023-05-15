@@ -3,9 +3,9 @@ package main;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class KeyHandler implements KeyListener{
+public class KeyHandler implements KeyListener {
 
-	public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
+	public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed, armorPressed;
 	
 	GamePanel gp;
 
@@ -43,9 +43,11 @@ public class KeyHandler implements KeyListener{
 				rightPressed = true;
 			}
 			
-			if(code ==KeyEvent.VK_ENTER) {
-				System.out.println("I HAVE PURPOSEFULLY PRESSED ENTER");
+			if(code == KeyEvent.VK_ENTER) {
 				enterPressed = true;
+			}
+			if(code == KeyEvent.VK_X) {
+				armorPressed = true;
 			}
 			if(code == KeyEvent.VK_ESCAPE) {
 				gp.gameState = gp.pauseState;
@@ -83,7 +85,8 @@ public class KeyHandler implements KeyListener{
 		if(code == KeyEvent.VK_ENTER) {
 			enterPressed = false;
 		}
-		
-	}
-
+		if(code == KeyEvent.VK_X) {
+			armorPressed = false;
+		}
+	}	
 }

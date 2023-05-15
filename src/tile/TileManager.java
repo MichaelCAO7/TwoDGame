@@ -33,10 +33,11 @@ public class TileManager {
 			
 			setup(0, "grass00", false);
 			setup(1, "wall", false);
-			setup(2, "water00", false);
+			setup(2, "water01", true);
 			setup(3, "earth", false);
-			setup(4, "tree", false);
-			setup(5, "sand", false);
+			setup(4, "tree", true);
+			setup(5, "rock", false);
+			setup(6, "tree1", false);
 		
 	}
 	public void setup(int index, String imageName, boolean collision) {
